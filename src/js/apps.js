@@ -27,10 +27,11 @@ fluid.defaults("trivet.app.templateHandler", {
         handleRequest: {
             funcName: "trivet.app.handleTemplate"
         },
-        // This invoker should return a function that takes an object
-        // containing the variables expected by the template, and returns a
-        // rendered template
-        getTemplateFunction: "fluid.notImplemented"
+        // This invoker should return a function that takes two arguments
+        // - a file location
+        // - an object containing the variables expected by the template
+        // It should return the rendered template content
+        renderTemplate: "fluid.notImplemented"
     },
     // Implementing grades should configure this
     templateConfig: {
@@ -55,8 +56,8 @@ trivet.app.handleTemplate = function (request) {
         var templateLocation = templateConfig.location + "/" + fluid.stringTemplate(templateConfig.templateFilename, {templateName: templateName});
 
         try {
-            var templateFunction = request.getTemplateFunction(templateLocation);
-            request.events.onSuccess.fire(templateFunction({request: request.req}));
+            var renderedTemplate = request.renderTemplate(templateLocation, {request: request.req});
+            request.events.onSuccess.fire(renderedTemplate);
         } catch (e) {
             request.events.onError.fire({message: "Template not found", statusCode: 404});
         }
@@ -73,8 +74,12 @@ trivet.app.errorHandler = function (res, error, request) {
 };
 
 trivet.app.templateNotFoundErrorHandler = function (res, error, request) {
-    var errorTemplateFunction = request.getTemplateFunction("src/templates/pug/error.pug");
-    request.res.status(404).send(errorTemplateFunction({error: error}));
+    try {
+        var renderedErrorTemplate = request.renderTemplate("src/templates/pug/error.pug", {error: error});
+        request.res.status(404).send(renderedErrorTemplate);
+    } catch (e) {
+        kettle.request.http.errorHandler(res, error);
+    }
 };
 
 fluid.defaults("trivet.app.template.pug", {
@@ -89,9 +94,10 @@ fluid.defaults("trivet.app.template.pug", {
 fluid.defaults("trivet.app.templateHandler.pug", {
     gradeNames: "trivet.app.templateHandler",
     invokers: {
-        getTemplateFunction: {
-            funcName: "trivet.app.getPugTemplateFunction",
-            args: "{arguments}.0"
+        renderTemplate: {
+            funcName: "trivet.app.renderPugTemplate",
+            // templateLocation, templateVariables
+            args: ["{arguments}.0", "{arguments}.1"]
         }
     },
     templateConfig: {
@@ -101,6 +107,8 @@ fluid.defaults("trivet.app.templateHandler.pug", {
     }
 });
 
-trivet.app.getPugTemplateFunction = function (templateLocation) {
-    return pug.compileFile(templateLocation);
+trivet.app.renderPugTemplate = function (templateLocation, templateVariables) {
+    var pugOptions = {cache: true, filename: templateLocation};
+    var merged = Object.assign(templateVariables, pugOptions);
+    return pug.renderFile(templateLocation, merged);
 };
