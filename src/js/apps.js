@@ -12,10 +12,6 @@ fluid.defaults("trivet.app.template", {
             "route": "/page/:template",
             "method": "get"
         }
-    },
-    distributeOptions: {
-        source: "{that}.options.precompiledTemplates",
-        target: "{/ trivet.app.templateHandler}.options.precompiledTemplates"
     }
 });
 
