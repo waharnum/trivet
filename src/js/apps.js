@@ -5,7 +5,7 @@ var kettle = require('kettle');
 // Abstract grade for routes expected to
 // return a templated page
 fluid.defaults("trivet.app.template", {
-    gradeNames: "kettle.app",
+    gradeNames: ["kettle.app"],
     requestHandlers: {
         templateHandler: {
             "type": "trivet.app.templateHandler",
@@ -14,7 +14,6 @@ fluid.defaults("trivet.app.template", {
         }
     }
 });
-
 
 // Abstract grade for template handling
 fluid.defaults("trivet.app.templateHandler", {
@@ -34,7 +33,7 @@ fluid.defaults("trivet.app.templateHandler", {
     //     location: "src/templates/pug",
     //     // %templateName = the :template portion of the route
     //     templateFilename: "%templateName.pug",
-            templateNotFoundErrorFilename: "error"
+    //     templateNotFoundErrorFilename: "error.pug"
     },
     listeners: {
         // Override standard onRequestError listener
@@ -70,8 +69,13 @@ trivet.app.errorHandler = function (res, error, request) {
 };
 
 trivet.app.templateNotFoundErrorHandler = function (res, error, request) {
+
+    var templateConfig = request.options.templateConfig;
+
+    var errorTemplateLocation = templateConfig.location + "/" + templateConfig.templateNotFoundErrorFilename;
+
     try {
-        var renderedErrorTemplate = request.renderTemplate("src/templates/pug/error.pug", {error: error});
+        var renderedErrorTemplate = request.renderTemplate(errorTemplateLocation, {error: error});
         request.res.status(404).send(renderedErrorTemplate);
     } catch (e) {
         kettle.request.http.errorHandler(res, error);
@@ -99,7 +103,8 @@ fluid.defaults("trivet.app.templateHandler.pug", {
     templateConfig: {
         location: "src/templates/pug",
         // %templateName = the :template portion of the route
-        templateFilename: "%templateName.pug"
+        templateFilename: "%templateName.pug",
+        templateNotFoundErrorFilename: "error.pug"
     }
 });
 
