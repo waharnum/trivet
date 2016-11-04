@@ -81,7 +81,6 @@ trivet.app.errorHandler = function (res, error, request) {
 };
 
 trivet.app.templateNotFoundErrorHandler = function (res, error, request) {
-
     var templateConfig = request.options.templateConfig;
 
     var errorTemplateLocation = templateConfig.location + "/" + templateConfig.templateNotFoundErrorFilename;
@@ -93,25 +92,6 @@ trivet.app.templateNotFoundErrorHandler = function (res, error, request) {
         kettle.request.http.errorHandler(res, error);
     }
 };
-
-fluid.defaults("trivet.app.template.pug", {
-    gradeNames: "trivet.app.template",
-    requestHandlers: {
-        templateHandler: {
-            "type": "trivet.app.templateHandler.pug",
-        },
-        frontPageHandler: {
-            "type": "trivet.app.frontPageHandler.pug",
-        }
-    }
-});
-
-fluid.defaults("trivet.app.frontPageHandler.pug", {
-    gradeNames: "trivet.app.templateHandler.pug",
-    templateConfig: {
-        templateFile: "front"
-    }
-});
 
 fluid.defaults("trivet.app.templateHandler.pug", {
     gradeNames: "trivet.app.templateHandler",

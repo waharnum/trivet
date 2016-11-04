@@ -9,7 +9,7 @@ var apps = require('./src/js/apps');
 
 
 fluid.defaults("trivet.server", {
-    gradeNames: "fluid.component",
+    gradeNames: ["fluid.component", "fluid.resolveRoot"],
     components: {
         server: {
             type: "kettle.server",
@@ -17,11 +17,16 @@ fluid.defaults("trivet.server", {
                 port: 8081,
                 components: {
                     template: {
-                        type: "trivet.app.template.pug"
+                        type: "trivet.app.template"
                     }
                 }
             }
-        }
+        },
+    },
+    // Configure the template handlers to use pug via options distribution
+    distributeOptions: {
+        record: "trivet.app.templateHandler.pug",
+        target: "{/ trivet.app.templateHandler}.options.gradeNames"
     }
 });
 
