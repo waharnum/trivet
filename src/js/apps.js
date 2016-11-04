@@ -20,6 +20,7 @@ fluid.defaults("trivet.app.template", {
     }
 });
 
+// Special route handler for the front page
 fluid.defaults("trivet.app.frontPageHandler", {
     gradeNames: "trivet.app.templateHandler",
     templateConfig: {
@@ -46,6 +47,8 @@ fluid.defaults("trivet.app.templateHandler", {
     //     // %templateName = the :template portion of the route
     //     templateFilename: "%templateName.pug",
     //     templateNotFoundErrorFilename: "error.pug"
+    //     this will always use the same template
+    //     templateFile: "front"
     },
     listeners: {
         // Override standard onRequestError listener
