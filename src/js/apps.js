@@ -7,11 +7,23 @@ var kettle = require('kettle');
 fluid.defaults("trivet.app.template", {
     gradeNames: ["kettle.app"],
     requestHandlers: {
+        frontPageHandler: {
+            "type": "trivet.app.frontPageHandler",
+            "route": "/",
+            "method": "get"
+        },
         templateHandler: {
             "type": "trivet.app.templateHandler",
             "route": "/page/:template",
             "method": "get"
         }
+    }
+});
+
+fluid.defaults("trivet.app.frontPageHandler", {
+    gradeNames: "trivet.app.templateHandler",
+    templateConfig: {
+        templateFile: "front"
     }
 });
 
@@ -45,7 +57,7 @@ fluid.defaults("trivet.app.templateHandler", {
 });
 
 trivet.app.handleTemplate = function (request) {
-        var templateName = request.req.params.template;
+        var templateName = request.options.templateConfig.templateFile ? request.options.templateConfig.templateFile : request.req.params.template;
         var templateConfig = request.options.templateConfig;
 
         var templateLocation = templateConfig.location + "/" + fluid.stringTemplate(templateConfig.templateFilename, {templateName: templateName});
@@ -87,7 +99,17 @@ fluid.defaults("trivet.app.template.pug", {
     requestHandlers: {
         templateHandler: {
             "type": "trivet.app.templateHandler.pug",
+        },
+        frontPageHandler: {
+            "type": "trivet.app.frontPageHandler.pug",
         }
+    }
+});
+
+fluid.defaults("trivet.app.frontPageHandler.pug", {
+    gradeNames: "trivet.app.templateHandler.pug",
+    templateConfig: {
+        templateFile: "front"
     }
 });
 
