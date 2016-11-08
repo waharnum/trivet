@@ -69,6 +69,7 @@ trivet.app.handleTemplate = function (request) {
             var renderedTemplate = request.renderTemplate(templateLocation, {request: request.req});
             request.events.onSuccess.fire(renderedTemplate);
         } catch (e) {
+            console.log(e);
             request.events.onError.fire({message: "Template not found", statusCode: 404});
         }
 };

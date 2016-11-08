@@ -3,7 +3,8 @@ var kettle = require('kettle');
 
 var trivet = fluid.registerNamespace("trivet");
 
-var apps = require('./src/js/apps');
+var templates = require('./src/js/templates');
+var stylesheets = require('./src/js/stylesheets');
 // var datasources = require('./src/js/datasources');
 // var middleware = require('./src/js/middleware');
 
@@ -16,8 +17,11 @@ fluid.defaults("trivet.server", {
             options: {
                 port: 8081,
                 components: {
-                    template: {
+                    templates: {
                         type: "trivet.app.template"
+                    },
+                    stylesheets: {
+                        type: "trivet.app.stylesheet"
                     }
                 }
             }
