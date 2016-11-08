@@ -1,3 +1,6 @@
 body {
-    font-family: "Comic Sans MS"
+    font-family: "Comic Sans MS";
+    p {
+        font-family: "sans serif";
+    }
 }

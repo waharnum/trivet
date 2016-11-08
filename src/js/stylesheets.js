@@ -9,7 +9,7 @@ fluid.defaults("trivet.app.stylesheet", {
     requestHandlers: {
         stylesheetHandler: {
             "type": "trivet.app.stylesheetHandler",
-            "route": "/stylesheets/:stylesheet",
+            "route": "/stylesheets/:stylesheet.css",
             "method": "get"
         }
     }
