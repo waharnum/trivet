@@ -17,7 +17,7 @@ fluid.defaults("trivet.server", {
             options: {
                 port: 8081,
                 components: {
-                    templates: {
+                    html: {
                         type: "trivet.app.template.html"
                     },
                     stylesheets: {

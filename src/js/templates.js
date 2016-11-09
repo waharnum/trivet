@@ -13,7 +13,7 @@ var kettle = require('kettle');
 //
 // This abstraction therefore covers not only templates
 // meant to produce HTML pages, but also CSS preprocessors,
-// CoffeeScript - Javascript
+// CoffeeScript - Javascript, or similar
 
 fluid.defaults("trivet.app.template", {
     gradeNames: ["kettle.app"]
