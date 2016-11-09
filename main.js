@@ -28,10 +28,10 @@ fluid.defaults("trivet.server", {
         },
     },
     // Configure the template handlers to use pug via options distribution
-    distributeOptions: {
-        record: "trivet.app.templateHandler.pug",
-        target: "{/ trivet.app.templateHandler}.options.gradeNames"
-    }
+    // distributeOptions: {
+    //     record: "trivet.app.templateHandler.pug",
+    //     target: "{/ trivet.app.templateHandler}.options.gradeNames"
+    // }
 });
 
 trivet.server();

@@ -3,7 +3,18 @@ var pug = require('pug');
 var kettle = require('kettle');
 
 // Abstract grade for routes expected to
-// return a templated page
+// return a templated result
+// A "templated result" in this context means
+// one produced by a combination of a referenced
+// source file, a set of variables and a "render"-type
+// function
+//
+// The produced result of this is returned as the response
+//
+// This abstraction therefore covers not only templates
+// meant to produce HTML pages, but also CSS preprocessors,
+// CoffeeScript - Javascript
+
 fluid.defaults("trivet.app.template", {
     gradeNames: ["kettle.app"],
     requestHandlers: {
@@ -13,7 +24,7 @@ fluid.defaults("trivet.app.template", {
             "method": "get"
         },
         templateHandler: {
-            "type": "trivet.app.templateHandler",
+            "type": "trivet.app.templateHandler.pug",
             "route": "/page/:template",
             "method": "get"
         }
@@ -22,7 +33,7 @@ fluid.defaults("trivet.app.template", {
 
 // Special route handler for the front page
 fluid.defaults("trivet.app.frontPageHandler", {
-    gradeNames: "trivet.app.templateHandler",
+    gradeNames: "trivet.app.templateHandler.pug",
     templateConfig: {
         templateFile: "front"
     }
