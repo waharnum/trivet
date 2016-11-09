@@ -4,11 +4,12 @@ var kettle = require('kettle');
 
 // Abstract grade for routes expected to
 // return a stylesheet
-fluid.defaults("trivet.app.stylesheet", {
-    gradeNames: ["kettle.app"],
+
+fluid.defaults("trivet.app.template.css", {
+    gradeNames: ["trivet.app.template"],
     requestHandlers: {
         stylesheetHandler: {
-            "type": "trivet.app.stylesheetHandler",
+            "type": "trivet.app.templateHandler.css",
             "route": "/stylesheets/:template.css",
             "method": "get"
         }
@@ -17,16 +18,9 @@ fluid.defaults("trivet.app.stylesheet", {
 
 
 // Abstract grade for styleshhet handling
-fluid.defaults("trivet.app.stylesheetHandler", {
-    gradeNames: "trivet.app.templateHandler",
+fluid.defaults("trivet.app.templateHandler.css.stylus", {
+    gradeNames: ["trivet.app.templateHandler.css"],
     invokers: {
-        handleRequest: {
-            funcName: "trivet.app.handleTemplate"
-        },
-        // This invoker should return a function that takes two arguments
-        // - a file location
-        // - an object containing the variables expected by the stylesheet
-        // It should return the rendered stylesheet
         renderTemplate: {
             funcName: "trivet.app.renderStylesheet",
             // stylesheetName, stylesheetVariables
@@ -35,7 +29,7 @@ fluid.defaults("trivet.app.stylesheetHandler", {
     },
     // Implementing grades should configure this
     templateConfig: {
-        location: "src/stylesheets/stylus",
+        location: "src/templates/css/stylus",
         // %stylesheetName = the :stylesheet portion of the route
         templateFilename: "%templateName.stylus",
     }

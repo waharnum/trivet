@@ -16,7 +16,11 @@ var kettle = require('kettle');
 // CoffeeScript - Javascript
 
 fluid.defaults("trivet.app.template", {
-    gradeNames: ["kettle.app"],
+    gradeNames: ["kettle.app"]
+});
+
+fluid.defaults("trivet.app.template.html", {
+    gradeNames: ["trivet.app.template"],
     requestHandlers: {
         frontPageHandler: {
             "type": "trivet.app.frontPageHandler",
@@ -24,18 +28,10 @@ fluid.defaults("trivet.app.template", {
             "method": "get"
         },
         templateHandler: {
-            "type": "trivet.app.templateHandler.pug",
+            "type": "trivet.app.templateHandler.html",
             "route": "/page/:template",
             "method": "get"
         }
-    }
-});
-
-// Special route handler for the front page
-fluid.defaults("trivet.app.frontPageHandler", {
-    gradeNames: "trivet.app.templateHandler.pug",
-    templateConfig: {
-        templateFile: "front"
     }
 });
 
@@ -68,6 +64,22 @@ fluid.defaults("trivet.app.templateHandler", {
             args: ["{that}.res", "{arguments}.0", "{that}"]
         }
     }
+});
+
+fluid.defaults("trivet.app.templateHandler.html", {
+    gradeNames: ["trivet.app.templateHandler"]
+});
+
+// Special route handler for the front page
+fluid.defaults("trivet.app.frontPageHandler", {
+    gradeNames: "trivet.app.templateHandler.html",
+    templateConfig: {
+        templateFile: "front"
+    }
+});
+
+fluid.defaults("trivet.app.templateHandler.css", {
+    gradeNames: ["trivet.app.templateHandler"]
 });
 
 trivet.app.handleTemplate = function (request) {
@@ -108,7 +120,7 @@ trivet.app.templateNotFoundErrorHandler = function (res, error, request) {
     }
 };
 
-fluid.defaults("trivet.app.templateHandler.pug", {
+fluid.defaults("trivet.app.templateHandler.html.pug", {
     gradeNames: "trivet.app.templateHandler",
     invokers: {
         renderTemplate: {
@@ -118,7 +130,7 @@ fluid.defaults("trivet.app.templateHandler.pug", {
         }
     },
     templateConfig: {
-        location: "src/templates/pug",
+        location: "src/templates/html/pug",
         // %templateName = the :template portion of the route
         templateFilename: "%templateName.pug",
         templateNotFoundErrorFilename: "error.pug"

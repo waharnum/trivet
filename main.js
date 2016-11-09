@@ -18,20 +18,23 @@ fluid.defaults("trivet.server", {
                 port: 8081,
                 components: {
                     templates: {
-                        type: "trivet.app.template"
+                        type: "trivet.app.template.html"
                     },
                     stylesheets: {
-                        type: "trivet.app.stylesheet"
+                        type: "trivet.app.template.css"
                     }
                 }
             }
         },
     },
     // Configure the template handlers to use pug via options distribution
-    // distributeOptions: {
-    //     record: "trivet.app.templateHandler.pug",
-    //     target: "{/ trivet.app.templateHandler}.options.gradeNames"
-    // }
+    distributeOptions: [{
+        record: "trivet.app.templateHandler.html.pug",
+        target: "{/ trivet.app.templateHandler.html}.options.gradeNames"
+    },{
+        record: "trivet.app.templateHandler.css.stylus",
+        target: "{/ trivet.app.templateHandler.css}.options.gradeNames"
+    }]
 });
 
 trivet.server();
