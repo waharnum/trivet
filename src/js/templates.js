@@ -19,22 +19,6 @@ fluid.defaults("trivet.app.template", {
     gradeNames: ["kettle.app"]
 });
 
-fluid.defaults("trivet.app.template.html", {
-    gradeNames: ["trivet.app.template"],
-    requestHandlers: {
-        frontPageHandler: {
-            "type": "trivet.app.frontPageHandler",
-            "route": "/",
-            "method": "get"
-        },
-        templateHandler: {
-            "type": "trivet.app.templateHandler.html",
-            "route": "/page/:template",
-            "method": "get"
-        }
-    }
-});
-
 // Abstract grade for template handling
 fluid.defaults("trivet.app.templateHandler", {
     gradeNames: "kettle.request.http",
@@ -62,6 +46,22 @@ fluid.defaults("trivet.app.templateHandler", {
         "onRequestError.handle": {
             funcName: "trivet.app.errorHandler",
             args: ["{that}.res", "{arguments}.0", "{that}"]
+        }
+    }
+});
+
+fluid.defaults("trivet.app.template.html", {
+    gradeNames: ["trivet.app.template"],
+    requestHandlers: {
+        frontPageHandler: {
+            "type": "trivet.app.frontPageHandler",
+            "route": "/",
+            "method": "get"
+        },
+        templateHandler: {
+            "type": "trivet.app.templateHandler.html",
+            "route": "/page/:template",
+            "method": "get"
         }
     }
 });
