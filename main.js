@@ -27,11 +27,13 @@ fluid.defaults("trivet.server", {
             }
         },
     },
-    // Configure the template handlers to use pug via options distribution
+
     distributeOptions: [{
+        // Configure the HTML template handlers to use pug via options distribution
         record: "trivet.app.templateHandler.html.pug",
         target: "{/ trivet.app.templateHandler.html}.options.gradeNames"
     },{
+        // Configure the CSS template handlers to use stylus via options distribution
         record: "trivet.app.templateHandler.css.stylus",
         target: "{/ trivet.app.templateHandler.css}.options.gradeNames"
     }]
